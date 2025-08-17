@@ -30,7 +30,18 @@ fn_create_backup_cmd () {
 
 # create restore cli command
 fn_create_restore_cmd () {
-    cmd="rsync -aP"
+    cmd=${RSYNC_BIN}
+
+	if [ -z "$cmd" ]; then
+		CMD=$(which rsync)
+	fi
+
+	if [ -z "$cmd" ]; then
+		echo "Can't find rsync: check if it's installed, then update PATH env var or set RSYNC_BIN env var."
+		exit 1
+	fi
+
+    cmd="$cmd -aP"
 
     if [ "${WIPE_SOURCE_ON_RESTORE:-'false'}" = "true" ]; then
         cmd="${cmd} --delete"
