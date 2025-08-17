@@ -8,6 +8,8 @@ __Example:__
 
 Consider this example __profile__ (named `user1-documents.inc`):
 
+    RSYNC_TMBACKUP_BIN="/home/user1/rsync_tmbackup/rsync_tmbackup.sh"
+    RSYNC_TMBACKUP_ARGS="-p 1234"
     SOURCE="${HOME}/Documents"
     TARGET="/mnt/backup-disk/Documents"
     EXCLUDE_FILE="/home/user1/opt/backup-documents-excludes.lst"
@@ -50,6 +52,10 @@ And here is how to __restore__ from the `latest` backup:
     EXCLUDE_FILE="${HOME}/backup-documents-excludes.lst"
     # optional: wipe the source folder before restoring files? (true/false; default: false)
     WIPE_SOURCE_ON_RESTORE=true
+    # optional: path to rsync_tmbackup.sh
+    RSYNC_TMBACKUP_BIN="${HOME}/rsync_tmbackup/rsync_tmbackup.sh"
+    # optional: extra args to pass to rsync_tmbackup.sh
+    RSYNC_TMBACKUP_ARGS="-p 1234"
 
 ### Exclude file
 

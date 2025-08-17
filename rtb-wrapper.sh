@@ -17,7 +17,18 @@ fn_display_usage () {
 
 # create backup cli command
 fn_create_backup_cmd () {
-    cmd="rsync_tmbackup.sh '${SOURCE}' '${TARGET}'"
+    cmd=${RSYNC_TMBACKUP_BIN}
+
+    if [ -z "$cmd" ]; then
+		cmd=$(which rsync_tmbackup.sh)
+	fi
+
+    if [ -z "$cmd" ]; then
+		echo "Can't find rsync_tmbackup.sh: check if it's installed, then update PATH env var or set RSYNC_TMBACKUP_BIN env var."
+		exit 1
+	fi
+
+    cmd="${cmd} ${RSYNC_TMBACKUP_ARGS} '${SOURCE}' '${TARGET}'"
 
     exclude_file_check=${EXCLUDE_FILE:-}
 
@@ -33,7 +44,7 @@ fn_create_restore_cmd () {
     cmd=${RSYNC_BIN}
 
 	if [ -z "$cmd" ]; then
-		CMD=$(which rsync)
+		cmd=$(which rsync)
 	fi
 
 	if [ -z "$cmd" ]; then
@@ -41,7 +52,7 @@ fn_create_restore_cmd () {
 		exit 1
 	fi
 
-    cmd="$cmd -aP"
+    cmd="${cmd} -aP"
 
     if [ "${WIPE_SOURCE_ON_RESTORE:-'false'}" = "true" ]; then
         cmd="${cmd} --delete"
