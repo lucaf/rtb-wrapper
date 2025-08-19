@@ -17,6 +17,7 @@ fn_display_usage () {
 
 # create backup cli command
 fn_create_backup_cmd () {
+    export RSYNC_BIN
     cmd=${RSYNC_TMBACKUP_BIN}
 
     if [ -z "$cmd" ]; then
