@@ -10,9 +10,17 @@ Consider this example __profile__ (named `user1-documents.inc`):
 
     RSYNC_TMBACKUP_BIN="/home/user1/rsync_tmbackup/rsync_tmbackup.sh"
     RSYNC_TMBACKUP_ARGS="-p 1234"
-    SOURCE="${HOME}/Documents"
-    TARGET="/mnt/backup-disk/Documents"
+    RSYNC_BIN=SSH_BIN='/user/home/my-rsync/rsync'
+    SSH_BIN='/user/home/my-ssh/ssh'
+    SSH_ARGS='-c aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes192-cbc'
+    SSH_RESTORE_ARGS="-p 1234 -i /Users/xxxx/.ssh/id_rsa"
+    BACKUP_SOURCE="${HOME}/Documents"
+    BACKUP_TARGET="/mnt/backup-disk/Documents"
+    RESTORE_TARGET="${HOME}/RestoreDocuments"
     EXCLUDE_FILE="/home/user1/opt/backup-documents-excludes.lst"
+
+Notice that RSYNC_BIN, SSH_BIN, SSH_ARGS will be exported and passed to rsync_tmbackup.sh.
+SSH_BIN and SSH_ARGS are only used for backup operations.
 
 Now it's as easy as this to __backup__ our data:
 
@@ -45,9 +53,11 @@ And here is how to __restore__ from the `latest` backup:
 `$HOME/.rsync_tmbackup/conf.d/<profile-name>.inc`: The backup profiles, one per file
 
     # the source folder
-    SOURCE="${HOME}/Documents"
+    BACKUP_SOURCE="${HOME}/Documents"
     # the target folder
-    TARGET="/media/user1/backup-disk/Documents"
+    BACKUP_TARGET="/media/user1/backup-disk/Documents"
+    # the restore folder
+    RESTORE_TARGET="${HOME}/RestoreDocuments"
     # optional: the exclude file for rsync
     EXCLUDE_FILE="${HOME}/backup-documents-excludes.lst"
     # optional: wipe the source folder before restoring files? (true/false; default: false)
@@ -56,6 +66,12 @@ And here is how to __restore__ from the `latest` backup:
     RSYNC_TMBACKUP_BIN="${HOME}/rsync_tmbackup/rsync_tmbackup.sh"
     # optional: extra args to pass to rsync_tmbackup.sh
     RSYNC_TMBACKUP_ARGS="-p 1234"
+    # optional: define ssh binary to use for backup
+    SSH_BIN="/user/home/my-ssh/ssh"
+    # optional: define ssh args to use for backup/restore
+    SSH_ARGS="-c aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes192-cbc"
+    # optional: define ssh args to use for restore
+    SSH_RESTORE_ARGS="-p 1234 -i /Users/xxxx/.ssh/id_rsa"
 
 ### Exclude file
 

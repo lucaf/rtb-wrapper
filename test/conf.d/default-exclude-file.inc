@@ -1,7 +1,7 @@
 # the source folder
-SOURCE="/source"
+BACKUP_SOURCE="/source"
 # the target folder
-TARGET="/target"
+BACKUP_TARGET="/target"
 
 # - no exclude file defined -
 

@@ -1,7 +1,7 @@
 # the source folder
-SOURCE="/source"
+BACKUP_SOURCE="/source"
 # the target folder
-TARGET="/target"
+BACKUP_TARGET="/target"
 # optional: the exclude file for rsync
 EXCLUDE_FILE="/excludes.lst"
 # optional: wipe the source folder before restoring files? (true/false; default: false)
